@@ -47,42 +47,39 @@ LOS insertitem(LOS los, LOS item, int k)
 	LOS el = malloc(sizeof(struct list*));
 	el->a = item->a;
 
-	if (k == 1)	//Если меняем первый элемент
-	{
-		el->next = los;
-		los = el;
-	}
-		
-	
-	else
-	{
 		for (size_t i = 1; i < k-1; i++)
 		{
 			los = los->next;
 		}
 		item->next = los->next;
 		los->next = item;
-	}
+	
 	return los;
 }
 
-void Zamena(LOS los, LOS item, int k)
+void Zamena(LOS los, int a, int m)
 {
-	/*if (k == 1)
-	{
-		item->next = los;
-		los = item;
-
-	}
-	else
-	{*/
-		for (size_t i = 1; i < k - 1; i++)
+	LOS min = los;
+	LOS max = los;
+	LOS _max = los;
+	if (a != 1) {
+		for (size_t n = -1; n < a; n++)
 		{
-			los = los->next;
+			min = min->next;
 		}
-		item->next = los->next;
-		los->next = item;
-	/*}*/
+		for (size_t n = 0; n < m - 2; n++)
+		{
+			_max = _max->next;
+		}
+		LOS l2 = _max->next;
+		max = l2->next;
+		LOS l1 = min->next;
+		min->next = l2;
+		_max->next = l1;
+		l2->next = l1->next;
+		l1->next = max;
+		return los;
+	}
 }
 
 void printLOS(LOS los)
@@ -131,11 +128,7 @@ int main()
 	printf("\n");
 	printLOS(los);
 
-	// Удаление списка
-	printf("\nУдаление списка");
 	
-	printf("\n");
-	printLOS(los);
 
 	//Удаление первого элемента
 	/*deletehead(los, 1);
@@ -143,10 +136,17 @@ int main()
 	printLOS(los);*/
 
 	//Замена элементов
+	printf("\nЗамена элементов");
 	Zamena(los, 3, 5);
 	printf("\n");
 	printLOS(los);
+
+	// Удаление списка
+	printf("\nУдаление списка");
+
+	printf("\n");
 	
+	free(los);
 
 	return 0;
 }
